@@ -52,7 +52,11 @@ export default function App() {
         shoppingList.length > 0 ?(
         <FlatList
           data={shoppingList}
-          renderItem={({ item }) => <ShoppingItem title={item.title} />}
+          renderItem={({ item }) => <ShoppingItem
+           title={item.title} 
+            isChecked={item.isChecked}
+            id={item.id}
+            />}
           keyExtractor={item => item.id}
 
         />
