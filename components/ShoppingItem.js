@@ -1,7 +1,8 @@
-import { Pressable, SafeAreaView, StyleSheet, Text, View } from 'react-native';
+import { Pressable, StyleSheet, Text, View } from 'react-native';
 import { AntDesign, MaterialIcons } from '@expo/vector-icons';
 import React, { useEffect, useState } from 'react'
-import { db, doc, updateDoc } from "../firebase/index";
+import { db, doc, updateDoc,deleteDoc } from "../firebase/index";
+
 const ShoppingItem = (props) => {
   const [isChecked, setIsChecked] = useState(props.isChecked);
 
@@ -12,6 +13,12 @@ const ShoppingItem = (props) => {
       isChecked: isChecked
     });
   }
+
+  const deleteShoppingItem = async () => {
+    await deleteDoc(doc(db, "shopping", props.id));
+    props.getShoppingList();
+  }
+
   useEffect(() => {
     updateIsChecked();
   }, [isChecked])
@@ -31,7 +38,7 @@ const ShoppingItem = (props) => {
 
       <Text style={styles.title}>{props.title}</Text>
 
-      <Pressable>
+      <Pressable onPress={deleteShoppingItem}>
         <MaterialIcons name="delete" size={24} color="black" />
       </Pressable>
     </View>
